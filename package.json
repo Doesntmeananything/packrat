@@ -1,0 +1,42 @@
+{
+  "name": "blog",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next-remote-watch ./posts",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ./src --fix",
+    "check-updates": "npx npm-check -u"
+  },
+  "dependencies": {
+    "next": "^12.1.4",
+    "next-mdx-remote": "^4.0.2",
+    "next-seo": "^5.4.0",
+    "next-themes": "^0.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.44",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "autoprefixer": "^10.4.4",
+    "eslint": "^8.13.0",
+    "eslint-config-next": "^12.1.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "next-remote-watch": "^1.0.0",
+    "postcss": "^8.4.12",
+    "prettier": "^2.6.2",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.6.3"
+  }
+}
