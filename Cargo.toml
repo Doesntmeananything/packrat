@@ -6,10 +6,13 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ansi_term = "0.12.1"
+anyhow = "1.0.57"
+clap = { version = "3.1.12", features = ["derive"] }
+crossterm = { version = "0.23.2", features = ["serde"] }
 futures = "0.3.21"
 node-semver = "2.0.0"
 reqwest = { version = "0.11.10", features = ["json"] }
 serde = { version = "1.0.136", features = ["derive"] }
 serde_json = { version = "1.0.79", features = ["preserve_order"] }
 tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
+tui = { version = "0.18.0", features = ["serde"] }

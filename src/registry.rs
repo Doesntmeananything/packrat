@@ -6,7 +6,7 @@ use reqwest::{header::ACCEPT, Client};
 use serde::Deserialize;
 
 /// Registry metadata of an NPM package.
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 #[serde(rename_all = "kebab-case")]
 pub struct Metadata {
     pub name: String,
@@ -26,7 +26,7 @@ const ACCEPT_ABBREVIATED: &str =
 
 pub async fn fetch_metadata(
     client: &Client,
-    package_name: &String,
+    package_name: &str,
 ) -> Result<Metadata, reqwest::Error> {
     client
         .get(REGISTRY_URL.to_owned() + package_name)

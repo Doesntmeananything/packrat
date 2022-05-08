@@ -1,60 +1,59 @@
-use serde::{Deserialize, Serialize};
-use serde_json::{
-    map::{Iter, Keys},
-    Map, Value,
-};
 use std::{
     fs::File,
     io::{Read, Write},
-    iter::Chain,
+    path::PathBuf,
 };
 
-/// A structure that represents a `package.json` file, which contains information about dependencies of a project.
-#[derive(Deserialize, Serialize)]
+use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
+
+/// A structure that represents a project with values from its `package.json` file.
+#[derive(Deserialize, Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct PackageJson {
+pub struct Project {
     pub values: Value,
 }
 
-impl PackageJson {
-    pub fn new() -> std::io::Result<PackageJson> {
-        let mut raw_package_json = File::open("./package.json")?;
+impl Project {
+    pub fn new(path: &PathBuf) -> std::io::Result<Project> {
+        let mut raw_package_json = File::open(path)?;
         let mut contents = String::new();
         raw_package_json.read_to_string(&mut contents)?;
         let values: Value = serde_json::from_str(&contents)?;
 
-        Ok(PackageJson { values })
+        Ok(Project { values })
     }
 
-    pub fn dependencies(&self) -> &Map<String, Value> {
-        self.values["dependencies"].as_object().unwrap()
+    pub fn dependencies(&self) -> Option<&Map<String, Value>> {
+        self.values["dependencies"].as_object()
     }
 
-    pub fn dev_dependencies(&self) -> &Map<String, Value> {
-        self.values["devDependencies"].as_object().unwrap()
+    pub fn dev_dependencies(&self) -> Option<&Map<String, Value>> {
+        self.values["devDependencies"].as_object()
     }
 
-    pub fn all_dependency_keys_iter(&self) -> Chain<Keys, Keys> {
-        self.dependencies()
-            .keys()
-            .chain(self.dev_dependencies().keys())
+    pub fn name(&self) -> &str {
+        self.values["name"].as_str().unwrap()
     }
 
-    pub fn all_dependencies_iter(&self) -> Chain<Iter, Iter> {
-        self.dependencies()
-            .iter()
-            .chain(self.dev_dependencies().iter())
+    pub fn version(&self) -> &str {
+        self.values["version"].as_str().unwrap()
     }
 
-    pub fn update_dependency_version(&mut self, report: Report) {
+    pub fn update_dependency_version(
+        &mut self,
+        name: &str,
+        version: &String,
+        range_prefix: Option<char>,
+    ) {
         // If package name contains `/`, represent it as `~1` to be in line with the JSON pointer spec:
         // https://datatracker.ietf.org/doc/html/rfc6901#section-3
         //
-        // JSON pointers are used to access and mutate `dependencies` and `devDependencies` in `package.json`
-        let package_json_pointer = report.package_name.replace('/', "~1");
-        let latest_version = match report.range_symbol {
-            Some(range_symbol) => range_symbol.to_string() + &report.latest_version,
-            None => report.latest_version,
+        // JSON pointers are used to access and mutate `dependencies` and `devDependencies` in serialized `package.json`
+        let package_json_pointer = name.replace('/', "~1");
+        let latest_version = match range_prefix {
+            Some(range_symbol) => range_symbol.to_string() + version,
+            None => version.to_owned(),
         };
 
         if let Some(v) = self
@@ -76,28 +75,5 @@ impl PackageJson {
         file.write_all(data.as_bytes())?;
 
         Ok(())
-    }
-}
-
-pub struct Report {
-    pub package_name: String,
-    pub current_version: String,
-    pub latest_version: String,
-    pub range_symbol: Option<char>,
-}
-
-impl Report {
-    pub fn new(
-        package_name: String,
-        current_version: String,
-        latest_version: String,
-        range_symbol: Option<char>,
-    ) -> Self {
-        Report {
-            package_name,
-            current_version,
-            latest_version,
-            range_symbol,
-        }
     }
 }
