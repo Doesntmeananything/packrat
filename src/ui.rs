@@ -11,7 +11,7 @@ use tui::{
 
 use crate::{
     application::{DependencyTable, State},
-    package::Project,
+    project::Project,
 };
 
 pub fn draw_ui<B: Backend>(

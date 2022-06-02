@@ -7,7 +7,7 @@ use crate::args::Args;
 
 mod application;
 mod args;
-mod package;
+mod project;
 mod registry;
 mod ui;
 

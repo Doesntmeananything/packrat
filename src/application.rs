@@ -15,7 +15,7 @@ use reqwest::Client;
 use tokio::sync::mpsc;
 use tui::{backend::CrosstermBackend, widgets::TableState, Terminal};
 
-use crate::{args::Args, package::Project, registry, ui::draw_ui};
+use crate::{args::Args, project::Project, registry, ui::draw_ui};
 
 #[derive(Debug)]
 enum ApplicationEvent<T> {
