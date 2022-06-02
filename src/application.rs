@@ -23,7 +23,7 @@ enum ApplicationEvent<T> {
     Tick,
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Eq)]
 pub enum DependencyTable {
     Runtime,
     Dev,
