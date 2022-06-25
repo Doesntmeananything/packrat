@@ -13,7 +13,6 @@ anyhow = "1.0.57"
 clap = { version = "3.1.12", features = ["derive"] }
 crossterm = { version = "0.23.2", features = ["serde"] }
 futures = "0.3.21"
-node-semver = "2.0.0"
 reqwest = { version = "0.11.10", features = ["json"] }
 serde = { version = "1.0.136", features = ["derive"] }
 serde_json = { version = "1.0.79", features = ["preserve_order"] }
