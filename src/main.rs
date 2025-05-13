@@ -17,7 +17,7 @@ async fn main() -> Result<(), Error> {
     let res = Application::new(args)?.run().await;
 
     if let Err(error) = res {
-        eprintln!("{:?}", error)
+        eprintln!("{error}")
     }
 
     Ok(())

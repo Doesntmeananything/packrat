@@ -58,12 +58,12 @@ impl Project {
 
         if let Some(v) = self
             .values
-            .pointer_mut(format!("/dependencies/{}", package_json_pointer).as_str())
+            .pointer_mut(format!("/dependencies/{package_json_pointer}").as_str())
         {
             *v = latest_version.into();
         } else if let Some(v) = self
             .values
-            .pointer_mut(format!("/devDependencies/{}", package_json_pointer).as_str())
+            .pointer_mut(format!("/devDependencies/{package_json_pointer}").as_str())
         {
             *v = latest_version.into();
         }

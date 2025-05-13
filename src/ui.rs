@@ -91,7 +91,7 @@ fn loading_progress<'a>(
 ) -> Gauge<'a> {
     let fetched_count = fetched_packages.len();
     let total_count = state.dependencies_len + state.dev_dependencies_len;
-    let label = format!("{}/{}", fetched_count, total_count);
+    let label = format!("{fetched_count}/{total_count}");
 
     Gauge::default()
         .block(
